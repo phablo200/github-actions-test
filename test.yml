@@ -1,0 +1,39 @@
+name: Ali
+age: 28
+address: "dwhui: iowdw"
+active: true
+key:
+  key: value
+  key2: 33
+  key3: 
+    key: value
+    key2: 2
+jsonObject:
+  key: value,
+  key2: 33,
+  key3:
+    key: value,
+    key2: value
+array: 
+  - item 1
+  - item 2
+  - item 3
+jsonArray: [item1, item2, item3]
+objectsArray:
+  - key: value
+    key2: value
+  - key: value
+longText: > 
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+  Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. 
+  Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
+  Nulla at risus. Quisque purus magna, auctor et, sagittis ac, posuere eu, lectus. 
+  Nam mattis, felis ut adipiscing.
+  
+# To keep the \n
+# longText: > 
+  # Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+  # Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. 
+  # Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
+  # Nulla at risus. Quisque purus magna, auctor et, sagittis ac, posuere eu, lectus. 
+  # Nam mattis, felis ut adipiscing.
