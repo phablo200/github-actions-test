@@ -1,3 +1,6 @@
+# Marketplace github
+github.com/marketplace?type=actions
+
 # A runner
 - Any machine with the Github Actions runner application installed.
 
@@ -111,6 +114,41 @@ jobs:
         run: |
           pwd
           ls
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: List files After Checkout
+        run: |
+          pwd
+          ls -a        
+      - name: Simple JS Action
+        id: greet
+        uses: actions/hello-world-javascript-action@v1
+        with:
+          who-to-greet: John
+      - name: Log Greeting Time
+        run: echo "${{ steps.greet.outputs.time }}"
+
+# The checkout actions:
+- Read that later
+- https://github.com/actions/checkout#usage
+
+# Echo variables and using the checkout action:
+name: Actions Workflow
+
+on: [push]
+
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List Files
+        run: |
+          pwd
+          ls -a
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
+          echo "${{ github.tokan }}"
       - name: Checkout
         uses: actions/checkout@v1
       - name: List files After Checkout
