@@ -5,29 +5,26 @@ on: [
 ]
 
 jobs:
-  run-github-actions:
+  run-shell-comands:
     runs-on: ubuntu-latest
     steps:
-      - name: List Files
+      - name: echo a string
+        run: echo "Hello World"
+      - name: multiline script
         run: |
-          pwd
-          ls -a
-          echo $GITHUB_SHA
-          echo $GITHUB_REPOSITORY
-          echo $GITHUB_WORKSPACE
-          echo "${{ github.tokan }}"
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: List files After Checkout
+          node -v
+          npm -v
+      - name: python Command
         run: |
-          pwd
-          ls -a        
-      - name: Simple JS Action
-        id: greet
-        uses: actions/hello-world-javascript-action@v1
-        with:
-          who-to-greet: John
-      - name: Log Greeting Time
-        run: echo "${{ steps.greet.outputs.time }}"
-
+          import platform
+          print(platform.processor())
+        shell: python
+  run-windows-commands: 
+    runs-on: windows-latest
+    steps:
+      - name: Directory PowerShell
+        run: Get-Location  
+      - name: Directory Bash
+        run: pwd
+        shell: bash
       
