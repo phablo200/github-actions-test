@@ -162,3 +162,90 @@ jobs:
           who-to-greet: John
       - name: Log Greeting Time
         run: echo "${{ steps.greet.outputs.time }}"
+
+# Example using schedule:
+name: Actions Workflow
+# * * * * *
+# Minuto - Horas - 
+on:
+  schedule:
+    - cron: "0/5 * * * *"
+    - cron: "0/6 * * * *"
+  pull_request:
+    types: [
+      closed, 
+      assigned, 
+      opened, 
+      reopened
+    ]
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List Files
+        run: |
+          pwd
+          ls -a
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
+          echo "${{ github.tokan }}"
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: List files After Checkout
+        run: |
+          pwd
+          ls -a        
+      - name: Simple JS Action
+        id: greet
+        uses: actions/hello-world-javascript-action@v1
+        with:
+          who-to-greet: John
+      - name: Log Greeting Time
+        run: echo "${{ steps.greet.outputs.time }}"
+
+Cronn Example:
+  name: Actions Workflow
+# * * * * *
+# Minuto - Horas - 
+on:
+  schedule:
+    - cron: "0/5 * * * *"
+    - cron: "0/6 * * * *"
+  pull_request:
+    types: [
+      closed, 
+      assigned, 
+      opened, 
+      reopened
+    ]
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List Files
+        run: |
+          pwd
+          ls -a
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
+          echo "${{ github.tokan }}"
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: List files After Checkout
+        run: |
+          pwd
+          ls -a        
+      - name: Simple JS Action
+        id: greet
+        uses: actions/hello-world-javascript-action@v1
+        with:
+          who-to-greet: John
+      - name: Log Greeting Time
+        run: echo "${{ steps.greet.outputs.time }}"
+
+      
+
+
+      
