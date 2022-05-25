@@ -2,13 +2,44 @@ name: Actions Workflow
 # * * * * *
 # Minuto - Horas - 
 on:
-  pull_request:
-    types: [
-      closed, 
-      assigned, 
-      opened, 
-      reopened
-    ]
+  push:
+    branches:
+      - master
+      - 'feature/*'
+    # branches:
+    #   - master
+    #   - 'feature/*' # Matchs feature/feata
+    #   # But doesn't match with this feature/feat/a
+    #   - 'feature/**' # this match with this feature/feat/a
+    # # To ignore 
+    
+    # #branches-ignore:
+    # #  - ""
+
+    # Includes one branch and igore specify branch
+    # branches:
+    #   - 'feature/**'
+    #   - '!feature/featC'
+
+    # You can make with tags
+    # tags, tags-ignore
+    
+
+  
+  # push:
+  #   branches:
+  #     - develop
+  #     - master
+
+
+
+  # pull_request:
+  #   types: [
+  #     closed, 
+  #     assigned, 
+  #     opened, 
+  #     reopened
+  #   ]
 jobs:
   run-github-actions:
     runs-on: ubuntu-latest
