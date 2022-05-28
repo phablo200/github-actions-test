@@ -162,3 +162,137 @@ jobs:
           who-to-greet: John
       - name: Log Greeting Time
         run: echo "${{ steps.greet.outputs.time }}"
+
+# Example using schedule:
+name: Actions Workflow
+# * * * * *
+# Minuto - Horas - 
+on:
+  schedule:
+    - cron: "0/5 * * * *"
+    - cron: "0/6 * * * *"
+  pull_request:
+    types: [
+      closed, 
+      assigned, 
+      opened, 
+      reopened
+    ]
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List Files
+        run: |
+          pwd
+          ls -a
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
+          echo "${{ github.tokan }}"
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: List files After Checkout
+        run: |
+          pwd
+          ls -a        
+      - name: Simple JS Action
+        id: greet
+        uses: actions/hello-world-javascript-action@v1
+        with:
+          who-to-greet: John
+      - name: Log Greeting Time
+        run: echo "${{ steps.greet.outputs.time }}"
+
+Cronn Example:
+  name: Actions Workflow
+# * * * * *
+# Minuto - Horas - 
+on:
+  schedule:
+    - cron: "0/5 * * * *"
+    - cron: "0/6 * * * *"
+  pull_request:
+    types: [
+      closed, 
+      assigned, 
+      opened, 
+      reopened
+    ]
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List Files
+        run: |
+          pwd
+          ls -a
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WORKSPACE
+          echo "${{ github.tokan }}"
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: List files After Checkout
+        run: |
+          pwd
+          ls -a        
+      - name: Simple JS Action
+        id: greet
+        uses: actions/hello-world-javascript-action@v1
+        with:
+          who-to-greet: John
+      - name: Log Greeting Time
+        run: echo "${{ steps.greet.outputs.time }}"
+
+# Creating random file in your application (This case is very good to version your code):
+create-issue:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Push a random file
+      run: |
+        pwd
+        ls -a
+        git init
+        git remote add origin "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git"
+        git config --global user.email "my-bot@bot.com"
+        git config --global user.name "my-bot"
+        git fetch
+        git checkout master
+        git branch --set-upstream-to=origin/master
+        git pull
+        ls -a
+        echo $RANDOM >> random.txt
+        ls -a
+        git add -A
+        git commit -m "Random file"
+        git push
+        
+    - name: Create issue using REST API
+      run: |
+        curl --request POST \
+        --url https://api.github.com/repos/${{ github.repository }}/issues \
+        --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+        --header 'content-type: application/json' \
+        --data '{
+          "title": "Automated issue for commit: ${{ github.sha }}",
+          "body": "This issue was automatically created by the Github Action workflow **${{ github.workflow }}**. \n\n the commit has was: _${{ github.sha }}_."
+        }'
+
+# Crypting files
+touch secret.json
+echo { \
+ api_key: "sjaksjlakjsakl", \
+ api_user: "sjklajsklajk" \
+} \
+>> secret.json;
+-- Or create this in the vscode
+
+cat secret.json
+
+gpg --symmetric --cipher-algo AES256 secret.json
+
+      
+
+
+      
