@@ -280,6 +280,7 @@ create-issue:
         }'
 
 # Crypting files
+
 touch secret.json
 echo { \
  api_key: "sjaksjlakjsakl", \
@@ -290,9 +291,46 @@ echo { \
 
 cat secret.json
 
-gpg --symmetric --cipher-algo AES256 secret.json
+1) gpg --help
+
+2) gpg --symmetric --cipher-algo AES256 secret.json
+
+3) Test your decript:
+gpg --quiet --batch --yes --decrypt --passphrase="123mudar" --output secrets.json secrets.json.gpg
 
       
 
+# Dome interesting functions
+-- in some cases your job can failure, if you desure that your next job continues running, so you may use one of these functions:
 
+-- In this case job with this condition will execute same that the previous job has been failured
+
+- In this ecample the previous job failured because of the "eccho"
+- name: Dump GitHub context
+  env:
+    GITHUB_CONTEXT: ${{ toJson(github) }}
+  run: eccho "$GITHUB_CONTEXT"
+- name: Dump job context
+  if: failure()
+  env:
+    JOB_CONTEXT: ${{ toJson(job) }}
+  run: echo "$JOB_CONTEXT"
+
+-- Another option is use the always() function, this function always execute your job with this condition.
+ name: Dump runner context
+if: always()
+env:
+  RUNNER_CONTEXT: ${{ toJson(runner) }}
+run: echo "$RUNNER_CONTEXT"
+
+-- You can use the key continue-on-error to continue only when it's have an error
+- jobs:
+  run-shell-comands:
+    steps:
       
+      ...
+      #if step before has an error
+      - name: multiline script
+        continue-on-error: true
+      ... 
+      steps after
