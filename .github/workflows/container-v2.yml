@@ -17,14 +17,16 @@ jobs:
         ports:
           - "27017:27017"
     steps:
+      - name: Get Users
+        run: curl --location --request GET 'localhost:3001/api/users'
       - name: Post a user
         run: |
-          "curl --location --request POST 'localhost:3001/api/user' \
+          curl --location --request POST 'localhost:3001/api/user' \
           --header 'Content-Type: application/json' \
           --data-raw '{
               "username": "phablo210",
               "address": "Rua cecílio batista marques, 242"
-          }'"
-      - name: Get Users
+          }
+      - name: Get Users after create
         run: curl --location --request GET 'localhost:3001/api/users'
       
