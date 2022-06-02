@@ -334,3 +334,8 @@ run: echo "$RUNNER_CONTEXT"
         continue-on-error: true
       ... 
       steps after
+
+
+# Descovering the bin executable 
+type -a echo
+type -a node
