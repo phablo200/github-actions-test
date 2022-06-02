@@ -1,0 +1,56 @@
+
+
+
+name: Container
+on: push
+
+jobs:
+  docker-steps:
+    runs-on: ubuntu-latest
+    container:
+      image: node:10.18.0-jessie
+    steps:
+      - name: Log node version
+        run: node -v
+      - name: step with docker-steps
+        uses: docker://node:12.14.1-alpine3.10
+        with:
+          entrypoint: '/bin/echo'
+          args: 'Hello World'
+      - name: Log node version with docker
+        uses: docker://node:12.14.1-alpine3.10
+        with:
+          entrypoint: '/usr/local/bin/node'
+          args: -v
+          
+      - uses: actions/checkout@v1
+      - name: Run a script
+        uses: docker://node:12.14.1-alpine3.10
+        with:
+          entrypoint: ./script.sh
+          args: "Some Params"
+  node-docker:
+    runs-on: ubuntu-latest
+    services:
+      app:
+        image: alialaa17/node-api
+        ports:
+          - 3001:3000
+      mongo:
+        image: mongo
+        ports:
+          - "27017:27017"
+    steps:
+      - name: Get Users
+        run: curl --location --request GET 'localhost:3001/api/users'
+      - name: Post a user
+        run: |
+          curl --location --request POST 'localhost:3001/api/user' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{
+              "username": "phablo210",
+              "address": "Rua cecílio batista marques, 242"
+          }'
+      - name: Get Users after create
+        run: curl --location --request GET 'localhost:3001/api/users'
+      
